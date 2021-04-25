@@ -1,0 +1,25 @@
+{% extends "base.html.j2" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+  <div class="container-fluid bg-dark text-white min-100">
+    <p class="text-center fs-2" style="padding-top: 50px;padding-bottom: 40px;">Thanks for come back🤯</p>
+    <div class="row justify-content-evenly" style="padding-bottom: 200px;">
+      <div class="col-4">
+        <form class="" action="/login" method="post">
+          {{ form.csrf_token }} <br>
+          {{ form.email(size=40) }} <br>
+          {{ form.password(size=40) }} <br><br>
+          {{ form.submit }}
+        </form>
+      </div>
+      <div class="col-4" style="padding-top: 20px;">
+        {% if error|length > 0 %}
+          <ul>
+            <li>Error in the field <strong>{{ error[0][0] }}</strong>, error: <em>{{error[0][1]}}</em> </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

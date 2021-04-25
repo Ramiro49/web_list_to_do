@@ -1,0 +1,49 @@
+{% extends "base.html.j2" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+  <div class="container-fluid bg-dark text-white min-100">
+    <div class="row justify-content-evenly" style="padding-bottom: 70px;padding-top: 50px;">
+      <div class="col-4">
+        <form class="" action="/" method="post">
+          {{ form.csrf_token }}
+          {{ form.task(size=70) }} <br>
+          {{ form.day(size=1) }} / {{ form.month(size=1) }} / {{ form.year(size=2) }} <br>
+          {{ form.hour }} : {{ form.minute }} <br>
+          {{ form.email_notification }} {{ form.email_notification.label }} <br><br>
+          {{ form.submit }}
+        </form>
+      </div>
+      <div class="col-4" style="padding-top: 20px;">
+        <ul>
+          {% for field, errors in error_list %}
+            {% for error in errors %}
+              <li>Error in the field <strong>{{ field }}</strong>, error: <em>{{error}}</em> </li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container" style="padding-bottom: 75px;">
+      {% if task_list|length > 0 %}
+          {% for task in task_list %}
+            <div class="row justify-content-start fs-5">
+              <div class="col-9">
+                <a href="{{ url_for('delete_task', task_id=task.id) }}", class="text-decoration-none bg-{{ task.color }}">✖</a>
+                {{ task.task_name }}
+              </div>
+              <div class="col-2">
+                {{ task.date_time.strftime("%d/%B/%Y") }}
+              </div>
+              <div class="col-1">
+                {{ task.date_time.strftime("%H:%M") }}
+              </div>
+            </div>
+          {% endfor %}
+      {% else %}
+        <p class="text-center fs-2">There are no tasks, yet🙃</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
